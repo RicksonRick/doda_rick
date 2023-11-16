@@ -6,8 +6,7 @@ DODA Offers Developer Assistance.
 
 It is an experiment using the OpenAI Assistants API to control your command line and development environment.
 
-Based on Deno + Electron to provide a ChatUI that can interact with your system to accomplish common development tasks.
-
+Based on Deno + Electron in order to provide a ChatUI that can run as a website on a remote server or as a desktop app.
 
 ## Current Functions
 * Creating files
