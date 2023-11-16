@@ -43,5 +43,4 @@ chmod +x start.sh
 
 You can kill the proc with `kill $(lsof -t -i:1337)`
 
-Contributing
-Contributions are welcome! Fork the repo and submit pull requests.
+Contributions are welcome! Fork the repo and submit pull requests. 🍻
