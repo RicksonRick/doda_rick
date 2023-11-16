@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>DODA</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        let scriptElement = document.createElement('script');
+        scriptElement.src = window.location.origin + '/public/app.js';
+        document.head.appendChild(scriptElement);
+
+        let linkElement = document.createElement('link');
+        linkElement.rel = 'stylesheet';
+        linkElement.href = window.location.origin + '/public/app.css';
+        document.head.appendChild(linkElement);
+      });
+    </script>
+    <script src="https://cdn.tailwindcss.com" id="external-js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.2/dist/terminal.min.css" />
+    
+    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+  </head>
+  <body class="h-screen flex">
+    <div id="chat-app" class="bg-white border border-gray-200 relative h-full w-full flex flex-col">
+      <!-- header -->
+      <div class="border-b-2 border-b-gray-200 py-3 px-6 flex flex-row justify-between items-center">
+        <div class="flex flex-row items-center space-x-1.5">
+          <div class="flex flex-col">
+            <p class="text-xs text-gray-600">DODA V0.0.1</p>
+          </div>
+        </div>
+        <nav class="terminal-menu">
+          <ul>
+            <li><a class="menu-item" href="#">.</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- content -->
+      <div class="flex-grow overflow-auto">
+        <div id="conversation" class="flex flex-col justify-start">
+        </div>
+        <div class="p-5" id="loading-spinner" style="display: none">
+          <div class="loader"></div>
+        </div>
+      </div>
+
+      <!-- input -->
+      <div class="px-6 py-3 bg-white w-full overflow-hidden rounded-bl-xl rounded-br-xla">
+        <div class="flex flex-row items-center space-x-5">
+          <div class="relative w-full">
+            <input
+              type="text"
+              class="w-full block p-1.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
+              id="chat-message"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+{
+    "model": "gpt-4-1106-preview",
+    "assistant_id": null,
+    "name": "DODA Alpha",
+    "instructions": "1. Identity: You are a chat-based developer assistant, akin to an AI version of a CLI terminal. 2. Ability: Orient yourself in the file system to interact with the developer's computer. You can run commands, create files, and more. 3. Formatting: Include markdown for code or large rich text responses.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "createFile",
+          "description": "create a file with the given name and content",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "fileName": {"type": "string", "description": "the filename"},
+              "content": {"type": "string", "description": "the content"}
+            },
+            "required": ["fileName"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "executeCommand",
+          "description": "Runs a specified command with arguments",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "commandName": {"type": "string", "description": "command to run"},
+              "commandArgs": {"type": "string", "description": "command arguments"}
+            },
+            "required": ["commandName"]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "getEnvironmentDetails",
+          "description": "Gets the environment details of the computer",
+          "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "runDodaScript",
+          "description": "Runs a specified script from the doda_scripts directory without arguments",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "scriptName": {"type": "string", "description": "the script filename"}
+            },
+            "required": ["scriptName"]
+          }
+        }
+      }
+    ]
+  }
+  
