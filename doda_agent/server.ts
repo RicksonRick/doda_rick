@@ -1,6 +1,7 @@
 import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
 import OpenAI from "npm:openai";
 import "https://deno.land/x/dotenv/load.ts";
+import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
 const app = new Application();
 const router = new Router();
@@ -45,7 +46,6 @@ async function executeCommand(commandName: string, commandArgs: string[]): Promi
     return JSON.stringify({ error: errorOutput });
   }
 }
-
 
 const SCRIPTS_DIR = `${Deno.cwd()}/../doda_scripts`; // Directory where scripts are stored
 
@@ -97,6 +97,35 @@ interface AssistantConfig {
   instructions: string;
   tools: string[];
   model: string;
+}
+
+interface DBConfig {
+  hostname: string;
+  username: string;
+  password: string;
+  db: string;
+  port: number;
+}
+
+async function executeSQL(sqlCommand: string): Promise<string> {
+  try {
+    const dbPath = Deno.env.get('DB_PATH');
+
+    if (dbPath) {
+      const db = new DB(dbPath);
+      const result = [];
+      for (const row of db.query(sqlCommand)) {
+        result.push(row);
+      }
+      db.close();
+      return JSON.stringify(result);
+    } else {
+      throw new Error('No DB_PATH provided, and server-based DB not configured in this example');
+    }
+  } catch (error) {
+    console.error("Error executing SQL command:", error);
+    return JSON.stringify({ error: error.message });
+  }
 }
 
 async function ensureAssistant(config: AssistantConfig = defaultAssistantConfig): Promise<string> {
@@ -170,6 +199,12 @@ async function handleToolCalls(runStatus, threadId, runId) {
       console.log('Calling runDodaScript with args:', args);
       const output = await runDodaScript(args.scriptName);
       console.log('Output from runDodaScript:', output);
+      toolOutputs.push({ tool_call_id: toolCall.id, output });
+    } else if (toolCall.function.name === 'executeSQL') {
+      const args = JSON.parse(toolCall.function.arguments);
+      console.log('Calling executeSQL with args:', args);
+      const output = await executeSQL(args.sqlCommand);
+      console.log('Output from executeSQL:', output);
       toolOutputs.push({ tool_call_id: toolCall.id, output });
     }
   }
